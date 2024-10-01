@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+@layer components {
+  .heading-l {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.15625rem;
+    text-transform: uppercase;
+  }
+
+  .heading-m {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.09375rem;
+    text-transform: uppercase;
+  }
+
+  .heading-s {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.07813rem;
+    text-transform: uppercase;
+  }
+
+  .heading-xs {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.0625rem;
+    text-transform: uppercase;
+  }
+
+  .body {
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.05469rem;
+  }
+}

@@ -1,16 +1,28 @@
 ---
-
+import IconO from "../components/icons/IconO";
+import IconX from "../components/icons/IconX";
+import PageLayout from "../layouts/PageLayout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<PageLayout
+  title="Tic Tac Toe"
+  description="New game menu for the tic tac toe game."
+>
+  <main
+    class="flex h-fit w-full max-w-[28.75rem] flex-col items-center gap-8 md:gap-10"
+  >
+    <div
+      class="flex flex-row items-center justify-center gap-2"
+      aria-hidden="true"
+    >
+      <IconX width={32} />
+      <IconO width={32} />
+    </div>
+
+    <div
+      class="bg-semi-dark-navy flex w-full flex-col gap-8 rounded-2xl p-6 text-center"
+    >
+      <span class="heading-xs">Pick player 1's mark</span>
+    </div>
+  </main>
+</PageLayout>
