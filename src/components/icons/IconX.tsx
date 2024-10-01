@@ -2,6 +2,7 @@ export default function IconX(props: {
   width: number;
   outline?: boolean;
   silver?: boolean;
+  className?: string;
 }) {
   return (
     <svg
@@ -9,9 +10,10 @@ export default function IconX(props: {
       height={props.width}
       viewBox="0 0 64 64"
       xmlns="http://www.w3.org/2000/svg"
+      class={props.className}
       classList={{
         "fill-[#31C3BD]": !props.outline && !props.silver,
-        "stroke-2 stroke-[#31C3BD] fill-none": props.outline,
+        "stroke-2 stroke-[#31C3BD] fill-[#1A2A33]": props.outline,
         "fill-[#A8BFC9] stroke-0": props.silver,
       }}
     >

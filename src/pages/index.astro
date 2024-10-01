@@ -1,6 +1,8 @@
 ---
 import IconO from "../components/icons/IconO";
 import IconX from "../components/icons/IconX";
+import MarkSection from "../components/index/MarkSection";
+import LanguageSwitcher from "../components/meta/LanguageSwitcher";
 import PageLayout from "../layouts/PageLayout.astro";
 ---
 
@@ -11,18 +13,16 @@ import PageLayout from "../layouts/PageLayout.astro";
   <main
     class="flex h-fit w-full max-w-[28.75rem] flex-col items-center gap-8 md:gap-10"
   >
+    <LanguageSwitcher client:load />
+
     <div
-      class="flex flex-row items-center justify-center gap-2"
+      class="z-0 flex flex-row items-center justify-center gap-2"
       aria-hidden="true"
     >
       <IconX width={32} />
       <IconO width={32} />
     </div>
 
-    <div
-      class="bg-semi-dark-navy flex w-full flex-col gap-8 rounded-2xl p-6 text-center"
-    >
-      <span class="heading-xs">Pick player 1's mark</span>
-    </div>
+    <MarkSection client:load />
   </main>
 </PageLayout>

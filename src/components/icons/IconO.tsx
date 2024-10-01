@@ -7,6 +7,7 @@ export default function IconO(props: {
   width: number;
   outline?: boolean;
   silver?: boolean;
+  className?: string;
 }) {
   return (
     <svg
@@ -14,9 +15,10 @@ export default function IconO(props: {
       height={props.width}
       viewBox={props.outline ? "0 0 66 66" : "0 0 64 64"}
       xmlns="http://www.w3.org/2000/svg"
+      class={props.className}
       classList={{
         "fill-[#F2B137]": !props.outline && !props.silver,
-        "stroke-2 stroke-[#F2B137] fill-none": props.outline,
+        "stroke-2 stroke-[#F2B137] fill-[#1A2A33]": props.outline,
         "fill-[#A8BFC9] stroke-0": props.silver,
       }}
     >
