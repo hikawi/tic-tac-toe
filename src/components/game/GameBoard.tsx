@@ -1,6 +1,8 @@
 import { useStore } from "@nanostores/solid";
-import { Index, Match, Switch } from "solid-js";
+import { createEffect, Index, Match, onMount, Switch } from "solid-js";
+import { $firstTurn } from "../../stores/firstTurn";
 import { $game, $tie, $winner, cpuMove, mark } from "../../stores/game";
+import { $gameStarted } from "../../stores/gameStarted";
 import { $multiplayer } from "../../stores/multiplayer";
 import { $selection } from "../../stores/selection";
 import { $splash } from "../../stores/splash";
@@ -16,6 +18,7 @@ export default function GameBoard() {
   const tie = useStore($tie);
   const selection = useStore($selection);
   const multiplayer = useStore($multiplayer);
+  const gameStarted = useStore($gameStarted);
 
   function splashNext() {
     if (winner() !== "" || tie() || (!multiplayer() && turn() !== selection()))
@@ -57,9 +60,21 @@ export default function GameBoard() {
     cpuPlay();
   }
 
-  // Subscribe to the turn event.
-  $turn.subscribe((val) => {
-    if (val !== selection() && !multiplayer()) cpuPlay();
+  // Can't set from the start buttons since this isn't mounted yet.
+  // So we force the cpu to play if possible.
+  onMount(() => {
+    $firstTurn.set("x");
+    $turn.set($firstTurn.get());
+    $gameStarted.set(true);
+  });
+
+  // Hook to game started
+  createEffect(() => {
+    if (gameStarted()) {
+      cpuPlay(); // First move by CPU?
+      $gameStarted.set(false);
+      splashNext();
+    }
   });
 
   return (

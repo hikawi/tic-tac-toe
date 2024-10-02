@@ -38,7 +38,6 @@ function checkWinner(board: Cell[]) {
 
 function clearBoard() {
   $game.set(["", "", "", "", "", "", "", "", ""]);
-  $turn.set("x");
 }
 
 function mark(index: number) {

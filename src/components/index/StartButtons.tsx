@@ -10,8 +10,8 @@ export default function StartButtons() {
   function handleClick(multi: boolean) {
     $multiplayer.set(multi);
     resetScores(); // Just to be sure.
-    clearBoard();
     window.location.href = "/game";
+    clearBoard();
   }
 
   return (

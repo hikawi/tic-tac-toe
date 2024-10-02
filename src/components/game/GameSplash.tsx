@@ -1,12 +1,14 @@
 import { useStore } from "@nanostores/solid";
 import { createEffect } from "solid-js";
 import { Match, Portal, Show, Switch } from "solid-js/web";
+import { $firstTurn } from "../../stores/firstTurn";
 import { $winner, clearBoard } from "../../stores/game";
+import { $gameStarted } from "../../stores/gameStarted";
 import { $multiplayer } from "../../stores/multiplayer";
 import { resetScores, updateScores } from "../../stores/scores";
 import { $selection } from "../../stores/selection";
 import { $splash } from "../../stores/splash";
-import { $turn } from "../../stores/turn";
+import { $turn, swap } from "../../stores/turn";
 import IconO from "../icons/IconO";
 import IconX from "../icons/IconX";
 import { $tl } from "./tl";
@@ -31,6 +33,9 @@ function QuitAndNext() {
           $splash.set("");
           updateScores();
           clearBoard();
+          $firstTurn.set(swap($firstTurn.get()));
+          $turn.set($firstTurn.get());
+          $gameStarted.set(true);
         }}
       >
         {tl().nextGame}
@@ -58,6 +63,8 @@ function Restart() {
           // Restart the game, don't update scores
           $splash.set("");
           clearBoard();
+          $turn.set($firstTurn.get());
+          $gameStarted.set(true);
         }}
       >
         {tl().yesRestart}
