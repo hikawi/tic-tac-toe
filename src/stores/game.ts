@@ -1,5 +1,8 @@
-import { persistentMap } from "@nanostores/persistent";
-import { computed, type StoreValue } from "nanostores";
+import { persistentAtom } from "@nanostores/persistent";
+import { computed } from "nanostores";
+import { $selection } from "./selection";
+import { $splash } from "./splash";
+import { $turn, swap, type Mark } from "./turn";
 
 const winPatterns = [
   [0, 1, 2], // Horizontal 1
@@ -12,15 +15,11 @@ const winPatterns = [
   [2, 4, 6], // Diagonal 2
 ];
 
-const $game = persistentMap<{
-  turn: "x" | "o";
-  board: ("x" | "o" | "")[];
-}>(
-  "state",
-  {
-    turn: "x",
-    board: ["", "", "", "", "", "", "", "", ""],
-  },
+type Cell = Mark | "";
+
+const $game = persistentAtom<Cell[]>(
+  "board",
+  ["", "", "", "", "", "", "", "", ""],
   {
     encode: JSON.stringify,
     decode: JSON.parse,
@@ -28,40 +27,107 @@ const $game = persistentMap<{
   },
 );
 
-function checkWinner(game: StoreValue<typeof $game>): "x" | "o" | "" {
-  const board = game.board;
+function checkWinner(board: Cell[]) {
   for (const pattern of winPatterns) {
     const [a, b, c] = pattern;
-    if (board[a] === board[b] && board[b] === board[c]) return board[a];
+    if (board[a] === board[b] && board[b] === board[c] && board[a] !== "")
+      return board[a];
   }
-
   return "";
 }
-const $winner = computed($game, checkWinner);
-
-function checkTie(
-  game: StoreValue<typeof $game>,
-  winner: StoreValue<typeof $winner>,
-) {
-  return game.board.every((cell) => cell !== "") && winner === "";
-}
-const $tie = computed([$game, $winner], checkTie);
 
 function clearBoard() {
-  $game.set({
-    turn: "x",
-    board: ["", "", "", "", "", "", "", "", ""],
-  });
+  $game.set(["", "", "", "", "", "", "", "", ""]);
+  $turn.set("x");
 }
 
 function mark(index: number) {
-  const board = [...$game.get().board];
-  board[index] = $game.get().turn;
-  $game.setKey("board", board);
+  const state = [...$game.get()];
+  state[index] = $turn.get();
+  $game.set(state);
 }
 
-function nextTurn() {
-  $game.setKey("turn", $game.get().turn === "x" ? "o" : "x");
+const $winner = computed($game, checkWinner);
+const $tie = computed(
+  $game,
+  (board) => board.every((cell) => cell !== "") && checkWinner(board) === "",
+);
+
+$winner.subscribe((val) => {
+  if (val !== "") $splash.set("win");
+});
+
+$tie.subscribe((val) => {
+  if (val) $splash.set("tie");
+});
+
+// ==============================
+// CPU Logic Section
+// ==============================
+
+const $cpu = computed($selection, swap);
+
+function isTerminal(board: Cell[]): boolean {
+  return checkWinner(board) !== "" || board.every((cell) => cell !== "");
 }
 
-export { $game, $tie, $winner, clearBoard, mark, nextTurn };
+function value(board: Cell[]): number {
+  for (const pattern of winPatterns) {
+    const [a, b, c] = pattern;
+    if (board[a] === board[b] && board[b] === board[c] && board[a] !== "")
+      return board[a] === $cpu.get() ? 1 : -1;
+  }
+  return 0;
+}
+
+function actions(board: Cell[]): number[] {
+  const moves = [];
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === "") moves.push(i);
+  }
+  return moves;
+}
+
+function result(board: Cell[], move: number, mark: Mark): Cell[] {
+  const newBoard = [...board];
+  newBoard[move] = mark;
+  return newBoard;
+}
+
+function minimax(board: Cell[], current: Mark): [number, number] {
+  if (isTerminal(board)) return [-1, value(board)];
+
+  if (current === $cpu.get()) {
+    // Maximize
+    let [move, max] = [-1, -Infinity];
+    for (const action of actions(board)) {
+      const [_, ev] = minimax(result(board, action, current), swap(current));
+      if (ev > max) [move, max] = [action, ev];
+    }
+
+    return [move, max];
+  } else {
+    // Minimize
+    let [move, min] = [-1, Infinity];
+    for (const action of actions(board)) {
+      const [_, ev] = minimax(result(board, action, current), swap(current));
+      if (ev < min) [move, min] = [action, ev];
+    }
+
+    return [move, min];
+  }
+}
+
+function cpuMove() {
+  const state = [...$game.get()];
+
+  // If the board is empty, return a random move
+  if (state.every((cell) => cell === "")) {
+    return Math.floor(Math.random() * 9);
+  }
+
+  const [move] = minimax(state, swap($selection.get()));
+  return move;
+}
+
+export { $game, $tie, $winner, clearBoard, cpuMove, mark };

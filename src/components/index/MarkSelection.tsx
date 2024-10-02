@@ -1,10 +1,18 @@
 import { useStore } from "@nanostores/solid";
+import { createSignal, onMount } from "solid-js";
+import { isServer } from "solid-js/web";
 import { $selection } from "../../stores/selection";
 import IconO from "../icons/IconO";
 import IconX from "../icons/IconX";
 
 export default function MarkSelection() {
   const selection = useStore($selection);
+  const [mounted, setMounted] = createSignal(false);
+
+  onMount(() => {
+    if (isServer) return;
+    setMounted(true);
+  });
 
   return (
     <div class="bg-dark-navy relative flex h-[4.5rem] flex-row rounded-xl p-2">
@@ -13,8 +21,8 @@ export default function MarkSelection() {
         <div
           class="bg-silver hover:bg-silver-hover h-full w-1/2 rounded-xl duration-200 motion-reduce:duration-0"
           classList={{
-            "translate-x-0": selection() === "x",
-            "translate-x-full": selection() === "o",
+            "translate-x-0": mounted() && selection() === "x",
+            "translate-x-full": mounted() && selection() === "o",
           }}
         ></div>
       </div>
@@ -27,8 +35,8 @@ export default function MarkSelection() {
         <IconX
           className="size-8"
           classList={{
-            "fill-dark-navy": selection() === "x",
-            "fill-silver": selection() !== "x",
+            "fill-dark-navy": mounted() && selection() === "x",
+            "fill-silver": mounted() && selection() !== "x",
           }}
         />
       </button>
@@ -41,8 +49,8 @@ export default function MarkSelection() {
         <IconO
           className="size-8"
           classList={{
-            "fill-dark-navy": selection() === "o",
-            "fill-silver": selection() !== "o",
+            "fill-dark-navy": mounted() && selection() === "o",
+            "fill-silver": mounted() && selection() !== "o",
           }}
         />
       </button>

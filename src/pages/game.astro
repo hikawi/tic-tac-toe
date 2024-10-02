@@ -11,7 +11,10 @@ import PageLayout from "../layouts/PageLayout.astro";
     <LanguageSwitcher client:load />
 
     <GameBar client:load />
-    <GameBoard client:load />
+
+    <!-- Make sure the board gets rendered correctly, or it shows empty squares due to cache from SSR. -->
+    <GameBoard client:only="solid-js" />
+
     <GameSplash client:load />
   </main>
 </PageLayout>

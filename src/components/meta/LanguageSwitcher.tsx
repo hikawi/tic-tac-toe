@@ -18,7 +18,7 @@ export default function LanguageSwitcher() {
       <div class="absolute right-6 top-6 z-10 flex flex-col items-end gap-2">
         <button
           class="stroke-silver hover:stroke-silver-hover flex items-center gap-3 px-2 py-1"
-          onClick={() => $languageDropdown.set(true)}
+          onClick={() => $languageDropdown.set(!languageDropdown())}
           aria-label="Change Language"
           aria-expanded={languageDropdown()}
         >

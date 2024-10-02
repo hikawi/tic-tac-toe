@@ -4,7 +4,7 @@
   },
   "index": {
     "pick": "Chọn ký hiệu của người chơi 1",
-    "notice": "Lưu ý: \"❌\" sẽ luôn đi trước",
+    "notice": "Lưu ý: \"X\" sẽ luôn đi trước",
     "cpu": "Chơi với máy",
     "player": "Chơi với người khác"
   },
@@ -18,6 +18,12 @@
     "quit": "Thoát",
     "nextGame": "Ván nữa",
     "noRestart": "Không, tiếp tục",
-    "yesRestart": "Có, chơi lại"
+    "yesRestart": "Có, chơi lại",
+    "yourTurn": "Lượt của bạn",
+    "lost": "Thật đáng tiếc, thua rồi...",
+    "won": "Thắng cuộc!",
+    "takesTheRound": "đã chiến thắng",
+    "p1Wins": "Người chơi 1 thắng",
+    "p2Wins": "Người chơi 2 thắng"
   }
 }

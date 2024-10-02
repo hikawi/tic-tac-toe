@@ -1,5 +1,5 @@
-import { atom } from "nanostores";
+import { persistentAtom } from "@nanostores/persistent";
 
-const $selection = atom<"x" | "o">("x");
+const $selection = persistentAtom<"x" | "o">("selection", "x");
 
 export { $selection };

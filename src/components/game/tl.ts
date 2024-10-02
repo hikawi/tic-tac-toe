@@ -11,6 +11,12 @@ const $tl = i18n("game", {
   nextGame: "Next Round",
   noRestart: "No, Cancel",
   yesRestart: "Yes, Restart",
+  yourTurn: "Your Turn",
+  lost: "Oh no, you lost...",
+  won: "You won!",
+  takesTheRound: "takes the round",
+  p1Wins: "Player 1 wins!",
+  p2Wins: "Player 2 wins!",
 });
 
 export { $tl };

@@ -6,7 +6,7 @@ const $scores = persistentMap<{
   o: number;
   ties: number;
 }>(
-  "scores",
+  "scores:",
   {
     x: 0,
     o: 0,
