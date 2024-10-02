@@ -1,0 +1,17 @@
+---
+import GameBar from "../components/game/GameBar";
+import GameBoard from "../components/game/GameBoard";
+import GameSplash from "../components/game/GameSplash";
+import LanguageSwitcher from "../components/meta/LanguageSwitcher";
+import PageLayout from "../layouts/PageLayout.astro";
+---
+
+<PageLayout title="Game" description="The game state">
+  <main class="flex h-fit w-full max-w-[28.75rem] flex-col items-center gap-5">
+    <LanguageSwitcher client:load />
+
+    <GameBar client:load />
+    <GameBoard client:load />
+    <GameSplash client:load />
+  </main>
+</PageLayout>

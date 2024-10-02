@@ -4,6 +4,20 @@
   },
   "index": {
     "pick": "Chọn ký hiệu của người chơi 1",
-    "notice": "Lưu ý: \"❌\" sẽ luôn đi trước"
+    "notice": "Lưu ý: \"❌\" sẽ luôn đi trước",
+    "cpu": "Chơi với máy",
+    "player": "Chơi với người khác"
+  },
+  "game": {
+    "turn": "lượt",
+    "you": "Bạn",
+    "cpu": "Máy",
+    "ties": "Hòa",
+    "tied": "Hòa rồi",
+    "restart": "Chơi lại?",
+    "quit": "Thoát",
+    "nextGame": "Ván nữa",
+    "noRestart": "Không, tiếp tục",
+    "yesRestart": "Có, chơi lại"
   }
 }

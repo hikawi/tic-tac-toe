@@ -2,6 +2,7 @@
 import IconO from "../components/icons/IconO";
 import IconX from "../components/icons/IconX";
 import MarkSection from "../components/index/MarkSection";
+import StartButtons from "../components/index/StartButtons";
 import LanguageSwitcher from "../components/meta/LanguageSwitcher";
 import PageLayout from "../layouts/PageLayout.astro";
 ---
@@ -19,10 +20,11 @@ import PageLayout from "../layouts/PageLayout.astro";
       class="z-0 flex flex-row items-center justify-center gap-2"
       aria-hidden="true"
     >
-      <IconX width={32} />
-      <IconO width={32} />
+      <IconX className="fill-light-blue size-8" />
+      <IconO className="fill-light-yellow size-8" />
     </div>
 
     <MarkSection client:load />
+    <StartButtons client:load />
   </main>
 </PageLayout>

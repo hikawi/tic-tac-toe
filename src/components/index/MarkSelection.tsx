@@ -1,30 +1,10 @@
 import { useStore } from "@nanostores/solid";
-import { onCleanup, onMount } from "solid-js";
-import { isServer } from "solid-js/web";
 import { $selection } from "../../stores/selection";
 import IconO from "../icons/IconO";
 import IconX from "../icons/IconX";
 
-function useKeyboardHandler() {
-  function keyboardHandler(event: KeyboardEvent) {
-    if (event.key.toLowerCase() === "x" || event.key.toLowerCase() === "o")
-      $selection.set(event.key as "x" | "o");
-  }
-
-  onMount(() => {
-    if (isServer) return;
-    window.addEventListener("keydown", keyboardHandler);
-  });
-
-  onCleanup(() => {
-    if (isServer) return;
-    window.removeEventListener("keydown", keyboardHandler);
-  });
-}
-
 export default function MarkSelection() {
   const selection = useStore($selection);
-  useKeyboardHandler();
 
   return (
     <div class="bg-dark-navy relative flex h-[4.5rem] flex-row rounded-xl p-2">
@@ -40,19 +20,31 @@ export default function MarkSelection() {
       </div>
 
       <button
-        class="z-10 flex w-full items-center justify-center"
+        class="hover:bg-silver z-10 flex w-full items-center justify-center rounded-xl hover:bg-opacity-5"
         aria-label="X Mark"
         onClick={() => $selection.set("x")}
       >
-        <IconX width={32} silver outline={selection() === "x"} />
+        <IconX
+          className="size-8"
+          classList={{
+            "fill-dark-navy": selection() === "x",
+            "fill-silver": selection() !== "x",
+          }}
+        />
       </button>
 
       <button
-        class="z-10 flex w-full items-center justify-center"
+        class="hover:bg-silver z-10 flex w-full items-center justify-center rounded-xl hover:bg-opacity-5"
         aria-label="O Mark"
         onClick={() => $selection.set("o")}
       >
-        <IconO width={32} silver outline={selection() === "o"} />
+        <IconO
+          className="size-8"
+          classList={{
+            "fill-dark-navy": selection() === "o",
+            "fill-silver": selection() !== "o",
+          }}
+        />
       </button>
     </div>
   );
