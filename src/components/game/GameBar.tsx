@@ -34,6 +34,7 @@ function GameBarContents() {
       <button
         class="bg-silver hover:bg-silver-hover flex size-10 shrink-0 items-center justify-center rounded-xl md:size-[3.25rem]"
         onClick={() => $splash.set("restart")}
+        aria-label="Restart"
       >
         <IconRestart className="size-5" />
       </button>

@@ -8,6 +8,7 @@ This is a solution to the [Tic Tac Toe challenge on Frontend Mentor](https://www
   - [Table of contents](#table-of-contents)
   - [Overview](#overview)
     - [The challenge](#the-challenge)
+    - [Keyboard Navigation](#keyboard-navigation)
     - [Screenshot](#screenshot)
     - [Links](#links)
   - [My process](#my-process)
@@ -34,6 +35,13 @@ Expected behaviors:
 - The first turn of the first round is always played by whoever is playing as X. For every following round, the first turn alternates between O and X.
 - After a round, if the player chooses to quit the game, they should be taken back to the new game menu.
 - If the restart icon in the top right is clicked, the "Restart game?" modal should show and allow the player to reset the game or cancel and continue to play.
+
+### Keyboard Navigation
+
+- You can use number keys <kbd>1</kbd> to <kbd>9</kbd> to select a cell.
+- You can use arrow keys <kbd>←</kbd>, <kbd>↑</kbd>, <kbd>→</kbd>, <kbd>↓</kbd> to navigate the board.
+- You can use <kbd>R</kbd> to restart the game.
+- You can use <kbd>T</kbd> to focus on the translation tab.
 
 ### Screenshot
 

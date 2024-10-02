@@ -47,7 +47,7 @@ function QuitAndNext() {
 function Restart() {
   const tl = useStore($tl);
   return (
-    <div class="heading-xs text-dark-navy z-50 flex flex-row items-center justify-center gap-4">
+    <div class="heading-xs text-dark-navy z-20 flex flex-row items-center justify-center gap-4">
       <button
         class="bg-silver hover:bg-silver-hover h-[3.25rem] rounded-xl px-4 shadow-[0px_-4px_0px_0px_#6B8997_inset]"
         onClick={() => {
@@ -90,9 +90,9 @@ export default function GameSplash() {
   });
 
   return (
-    <Portal>
-      <Show when={splash() !== ""}>
-        <div class="fixed inset-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50">
+    <Show when={splash() !== ""}>
+      <Portal>
+        <div class="fixed inset-0 z-20 flex h-full w-full items-center justify-center bg-black bg-opacity-50">
           <div class="bg-semi-dark-navy flex h-[14.25rem] w-full flex-col items-center justify-center gap-6 md:h-[16.625rem]">
             <Switch fallback={splash()}>
               <Match when={splash() === "tie"}>
@@ -168,7 +168,7 @@ export default function GameSplash() {
             </Switch>
           </div>
         </div>
-      </Show>
-    </Portal>
+      </Portal>
+    </Show>
   );
 }
