@@ -8,7 +8,14 @@ import {
   Switch,
 } from "solid-js";
 import { $firstTurn } from "../../stores/firstTurn";
-import { $game, $tie, $winner, cpuMove, mark } from "../../stores/game";
+import {
+  $game,
+  $tie,
+  $winner,
+  $winPattern,
+  cpuMove,
+  mark,
+} from "../../stores/game";
 import { $gameStarted } from "../../stores/gameStarted";
 import { $multiplayer } from "../../stores/multiplayer";
 import { $selection } from "../../stores/selection";
@@ -21,6 +28,7 @@ import GameScores from "./GameScores";
 export default function GameBoard() {
   const turn = useStore($turn);
   const game = useStore($game);
+  const winPattern = useStore($winPattern);
   const winner = useStore($winner);
   const tie = useStore($tie);
   const selection = useStore($selection);
@@ -147,23 +155,39 @@ export default function GameBoard() {
         {(cell, index) => (
           <button
             id={`button-${index + 1}`}
-            class="bg-semi-dark-navy text-silver group flex size-24 items-center justify-center rounded-2xl shadow-[0px_-4px_0px_0px_#10212A_inset] md:size-[8.75rem]"
+            class="xs:size-24 group flex size-16 items-center justify-center rounded-2xl text-silver shadow-[0px_-4px_0px_0px_#10212A_inset] md:size-[8.75rem]"
+            classList={{
+              "bg-light-yellow": winPattern().includes(index) && cell() === "o",
+              "bg-light-blue": winPattern().includes(index) && cell() === "x",
+              "bg-semi-dark-navy": cell() === "" || winner() === "",
+            }}
             onClick={() => handleClick(index)}
             disabled={cell() !== ""}
             aria-label={`Mark cell ${index + 1} as ${turn()}`}
           >
             <Switch>
+              {/* Color cells differently if there's a win. */}
+              <Match when={winPattern().includes(index) && cell() === "o"}>
+                <IconO className="xs:size-12 size-8 fill-semi-dark-navy md:size-[4.375rem]" />
+              </Match>
+              <Match when={winPattern().includes(index) && cell() === "x"}>
+                <IconX className="xs:size-12 size-8 fill-semi-dark-navy md:size-[4.375rem]" />
+              </Match>
+
+              {/* Show the mark on the cell if there is one */}
               <Match when={cell() === "o"}>
-                <IconO className="fill-light-yellow size-12 md:size-[4.375rem]" />
+                <IconO className="xs:size-12 size-8 fill-light-yellow md:size-[4.375rem]" />
               </Match>
               <Match when={cell() === "x"}>
-                <IconX className="fill-light-blue size-12 md:size-[4.375rem]" />
+                <IconX className="xs:size-12 size-8 fill-light-blue md:size-[4.375rem]" />
               </Match>
+
+              {/* Show the hover effect */}
               <Match when={turn() === "x"}>
-                <IconX className="stroke-light-blue fill-semi-dark-navy invisible size-12 stroke-2 group-hover:visible group-focus:visible md:size-[4.375rem]" />
+                <IconX className="xs:size-12 invisible size-8 fill-semi-dark-navy stroke-light-blue stroke-2 group-hover:visible group-focus:visible md:size-[4.375rem]" />
               </Match>
               <Match when={turn() === "o"}>
-                <IconO className="stroke-light-yellow fill-semi-dark-navy invisible size-12 stroke-2 group-hover:visible group-focus:visible md:size-[4.375rem]" />
+                <IconO className="xs:size-12 invisible size-8 fill-semi-dark-navy stroke-light-yellow stroke-2 group-hover:visible group-focus:visible md:size-[4.375rem]" />
               </Match>
             </Switch>
           </button>

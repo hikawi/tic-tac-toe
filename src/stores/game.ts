@@ -27,13 +27,18 @@ const $game = persistentAtom<Cell[]>(
   },
 );
 
-function checkWinner(board: Cell[]) {
+function checkWinPattern(board: Cell[]): number[] {
   for (const pattern of winPatterns) {
     const [a, b, c] = pattern;
     if (board[a] === board[b] && board[b] === board[c] && board[a] !== "")
-      return board[a];
+      return pattern;
   }
-  return "";
+  return [];
+}
+
+function checkWinner(board: Cell[]) {
+  const winPattern = checkWinPattern(board);
+  return winPattern.length > 0 ? board[winPattern[0]] : "";
 }
 
 function clearBoard() {
@@ -46,6 +51,7 @@ function mark(index: number) {
   $game.set(state);
 }
 
+const $winPattern = computed($game, checkWinPattern);
 const $winner = computed($game, checkWinner);
 const $tie = computed(
   $game,
@@ -129,4 +135,4 @@ function cpuMove() {
   return move;
 }
 
-export { $game, $tie, $winner, clearBoard, cpuMove, mark };
+export { $game, $tie, $winner, $winPattern, clearBoard, cpuMove, mark };

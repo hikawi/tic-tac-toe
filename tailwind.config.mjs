@@ -3,6 +3,9 @@ export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
+      screens: {
+        xs: "375px",
+      },
       colors: {
         "light-blue": "#31C3BD",
         "light-blue-hover": "#65E9E4",
